@@ -1,0 +1,18 @@
+{
+  "name": "tls.js",
+  "version": "0.0.0",
+  "description": "TLS/SSL implemented in javascript",
+  "main": "lib/tls.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "tls"
+  ],
+  "author": "Fedor Indutny",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha --reporter spec test/*-test.js"
+  }
+}
