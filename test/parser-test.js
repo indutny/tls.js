@@ -13,7 +13,7 @@ describe('tls.js/Parser', function() {
 
   before(function(cb) {
     server = net.createServer(function(s) {
-      var parser = tls.parsers.record.create();
+      var parser = tls.parser.create();
       s.pipe(parser);
 
       parser.on('readable', function() {
@@ -45,16 +45,9 @@ describe('tls.js/Parser', function() {
     socket = realTls.connect(PORT);
 
     ee.once('record', function(r) {
+      console.log(r);
       assert.equal(r.type, 'handshake');
-      assert.ok(r.length > 0);
-
-      var body = r.body;
-      assert.ok(body);
-      assert.equal(body.type, 'client_hello');
-
-      var handshake = body.handshake;
-      assert.ok(handshake);
-      assert.ok(handshake.version >= r.version);
+      assert.equal(r.handshakeType, 'client_hello');
 
       cb();
     });
