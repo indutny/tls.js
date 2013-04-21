@@ -4,7 +4,7 @@
   "description": "TLS/SSL implemented in javascript",
   "main": "lib/tls.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec test/*-test.js"
   },
   "repository": "",
   "keywords": [
@@ -12,7 +12,7 @@
   ],
   "author": "Fedor Indutny",
   "license": "MIT",
-  "scripts": {
-    "test": "mocha --reporter spec test/*-test.js"
+  "devDependencies": {
+    "mocha": "~1.9.0"
   }
 }
