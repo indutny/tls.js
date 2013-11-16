@@ -45,7 +45,6 @@ describe('tls.js/Parser', function() {
     socket = realTls.connect(PORT);
 
     ee.once('record', function(r) {
-      console.log(r);
       assert.equal(r.type, 'handshake');
       assert.equal(r.handshakeType, 'client_hello');
 
