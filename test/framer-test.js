@@ -27,7 +27,7 @@ describe('tls.js/Parser', function() {
       assert.equal(frame.description, 'illegal_parameter');
     });
 
-    it('hello', function() {
+    it('client_hello', function() {
       framer.hello('client', {
         cipherSuites: [
           'TLS_ECDH_anon_WITH_AES_256_CBC_SHA'
@@ -41,6 +41,19 @@ describe('tls.js/Parser', function() {
       assert.equal(frame.compressions.length, 0);
       assert.equal(frame.cipherSuites.length, 1);
       assert.equal(frame.cipherSuites[0], 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA');
+    });
+
+    it('server_hello', function() {
+      framer.hello('server', {
+        cipherSuite: 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA'
+      });
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'server_hello');
+      assert(frame.random.time <= +new Date);
+      assert.equal(frame.session, false);
+      assert.equal(frame.compressions.length, 0);
+      assert.equal(frame.cipherSuite, 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA');
     });
 
     it('certificate', function() {
