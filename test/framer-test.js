@@ -53,5 +53,27 @@ describe('tls.js/Parser', function() {
       assert.equal(frame.certs.length, 1);
       assert.equal(frame.certs[0].toString(), 'hello');
     });
+
+    it('certificate_request', function() {
+      framer.certificateRequest({
+        types: [ 'rsa_fixed_dh' ],
+        signatureAlgorithms: [
+          { hash: 'sha1', sign: 'rsa' }
+        ],
+        authorities: [ new Buffer('der') ]
+      });
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'certificate_request');
+      assert.equal(frame.types.length, 1);
+      assert.equal(frame.types[0], 'rsa_fixed_dh');
+      assert.equal(frame.signatureAlgorithms.length, 1);
+      assert.deepEqual(frame.signatureAlgorithms[0], {
+        hash: 'sha1',
+        sign: 'rsa'
+      });
+      assert.equal(frame.authorities.length, 1);
+      assert.equal(frame.authorities[0].toString(), 'der');
+    });
   });
 });
