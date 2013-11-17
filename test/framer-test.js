@@ -102,5 +102,13 @@ describe('tls.js/Parser', function() {
       assert.equal(frame.type, 'handshake');
       assert.equal(frame.handshakeType, 'hello_request');
     });
+
+    it('finished', function() {
+      framer.finished(new Buffer('hello'));
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'finished');
+      assert.equal(frame.verify.toString(), 'hello');
+    });
   });
 });
