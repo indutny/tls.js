@@ -75,5 +75,19 @@ describe('tls.js/Parser', function() {
       assert.equal(frame.authorities.length, 1);
       assert.equal(frame.authorities[0].toString(), 'der');
     });
+
+    it('server_hello_done', function() {
+      framer.helloDone();
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'server_hello_done');
+    });
+
+    it('hello_request', function() {
+      framer.helloRequest();
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'hello_request');
+    });
   });
 });
