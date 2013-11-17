@@ -30,7 +30,7 @@ describe('tls.js/Parser', function() {
     it('hello', function() {
       framer.hello('client', {
         cipherSuites: [
-          tls.constants.cipherSuiteByName['TLS_ECDH_anon_WITH_AES_256_CBC_SHA']
+          'TLS_ECDH_anon_WITH_AES_256_CBC_SHA'
         ]
       });
       var frame = parser.read();
