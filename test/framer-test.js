@@ -2,13 +2,15 @@ var tls = require('..'),
     net = require('net'),
     assert = require('assert');
 
-describe('tls.js/Parser', function() {
+describe('tls.js/Framer', function() {
   var framer = null;
   var parser = null;
+  var provider = tls.provider.node.create();
 
   beforeEach(function() {
-    framer = tls.framer.create();
-    parser = tls.parser.create();
+    var context = tls.context.create({ provider: provider });
+    framer = tls.framer.create({ context: context });
+    parser = tls.parser.create({ context: context });
     framer.pipe(parser);
   });
 

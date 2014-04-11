@@ -1,10 +1,11 @@
 var tls = require('..'),
     net = require('net'),
+    fs = require('fs'),
     assert = require('assert');
 
 var PORT = 8000;
 
-describe('tls.js/Protocol', function() {
+describe('tls.js/Socket', function() {
   var server;
   var client;
   var serverSide;
@@ -15,13 +16,28 @@ describe('tls.js/Protocol', function() {
     function wait() {
       if (--waiting === 0) done();
     }
+
+    var ctx = tls.context.create({
+      key: fs.readFileSync(__dirname + '/keys/key.pem'),
+      cert: fs.readFileSync(__dirname + '/keys/cert.pem'),
+      provider: tls.provider.node.create()
+    });
+
     server = net.createServer(function(socket) {
-      serverSide = tls.protocol.create(socket, { type: 'server' });
+      serverSide = tls.socket.create(socket, {
+        type: 'server',
+        context: ctx
+      });
+
       serverSide.start();
       wait();
     }).listen(PORT, function() {
       client = net.connect(PORT, function() {
-        clientSide = tls.protocol.create(client, { type: 'client' });
+        clientSide = tls.socket.create(client, {
+          type: 'client',
+          context: ctx
+        });
+
         clientSide.start();
         wait();
       });

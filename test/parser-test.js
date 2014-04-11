@@ -13,7 +13,9 @@ describe('tls.js/Parser', function() {
 
   before(function(cb) {
     server = net.createServer(function(s) {
-      var parser = tls.parser.create();
+      var provider = tls.provider.node.create();
+      var context = tls.context.create({ provider: provider });
+      var parser = tls.parser.create({ context: context });
       s.pipe(parser);
 
       parser.on('readable', function() {
