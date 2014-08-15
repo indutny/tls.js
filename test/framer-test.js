@@ -123,5 +123,21 @@ describe('tls.js/Framer', function() {
       assert.equal(frame.handshakeType, 'finished');
       assert.equal(frame.verify.toString(), 'hello');
     });
+
+    it('client_key_exchange', function() {
+      framer.keyExchange('client', new Buffer('hello'));
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'client_key_exchange');
+      assert.equal(frame.content.toString(), 'hello');
+    });
+
+    it('server_key_exchange', function() {
+      framer.keyExchange('server', new Buffer('hello'));
+      var frame = parser.read();
+      assert.equal(frame.type, 'handshake');
+      assert.equal(frame.handshakeType, 'server_key_exchange');
+      assert.equal(frame.content.toString(), 'hello');
+    });
   });
 });
