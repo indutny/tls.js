@@ -34,7 +34,13 @@ describe('tls.js/Framer', function() {
         cipherSuites: [
           'TLS_ECDH_anon_WITH_AES_256_CBC_SHA'
         ],
-        compressionMethods: ['null', 'deflate']
+        compressionMethods: ['null', 'deflate'],
+        extensions: [
+          {
+            type: 'next_protocol_negotiation',
+            body: new Buffer(0)
+          }
+        ]
       });
       var frame = parser.read();
       assert.equal(frame.type, 'handshake');
@@ -46,6 +52,7 @@ describe('tls.js/Framer', function() {
       assert.equal(frame.compressionMethods.length, 2);
       assert.equal(frame.compressionMethods[0], 'null');
       assert.equal(frame.compressionMethods[1], 'deflate');
+      assert.equal(frame.extensions.next_protocol_negotiation.length, 0);
     });
 
     it('server_hello', function() {
