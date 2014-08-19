@@ -24,19 +24,19 @@ describe('tls.js/Socket', function() {
     });
 
     server = net.createServer(function(socket) {
-      serverSide = tls.socket.create(socket, {
+      serverSide = tls.socket.create(socket, tls.state.create({
         type: 'server',
         context: ctx
-      });
+      }));
 
       serverSide.start();
       wait();
     }).listen(PORT, function() {
       client = net.connect(PORT, function() {
-        clientSide = tls.socket.create(client, {
+        clientSide = tls.socket.create(client, tls.state.create({
           type: 'client',
           context: ctx
-        });
+        }));
 
         clientSide.start();
         wait();

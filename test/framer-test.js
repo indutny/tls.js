@@ -9,8 +9,9 @@ describe('tls.js/Framer', function() {
 
   beforeEach(function() {
     var context = tls.context.create({ provider: provider });
-    framer = tls.framer.create({ context: context });
-    parser = tls.parser.create({ context: context });
+    var state = tls.state.create({ context: context });
+    framer = tls.framer.create(state);
+    parser = tls.parser.create(state);
     framer.pipe(parser);
   });
 
