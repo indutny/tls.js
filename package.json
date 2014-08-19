@@ -1,6 +1,6 @@
 {
   "name": "tls.js",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "TLS/SSL implemented in javascript",
   "main": "lib/tls.js",
   "scripts": {
