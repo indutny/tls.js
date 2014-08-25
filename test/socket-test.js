@@ -29,11 +29,17 @@ describe('tls.js/Socket', function() {
 
     server = net.createServer(function(socket) {
       serverSide = tls.socket.create(socket, ctx.server, 'server');
+      serverSide.state.on('stateChange', function(from, to) {
+        console.log('s %s >> %s', from, to);
+      });
       serverSide.start();
       wait();
     }).listen(PORT, function() {
       client = net.connect(PORT, function() {
         clientSide = tls.socket.create(client, ctx.client, 'client');
+        clientSide.state.on('stateChange', function(from, to) {
+          console.log('c %s >> %s', from, to);
+        });
         clientSide.start();
         wait();
       });
