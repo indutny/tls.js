@@ -17,27 +17,23 @@ describe('tls.js/Socket', function() {
       if (--waiting === 0) done();
     }
 
-    var ctx = tls.context.create({
+    var provider = tls.provider.node.create();
+    var ctx = {
+      client: tls.context.create({ provider: provider }),
+      server: tls.context.create({ provider: provider })
+    };
+    ctx.server.addKeyPair('rsa', {
       key: fs.readFileSync(__dirname + '/keys/key.pem'),
-      cert: fs.readFileSync(__dirname + '/keys/cert.pem'),
-      provider: tls.provider.node.create()
+      cert: fs.readFileSync(__dirname + '/keys/cert.pem')
     });
 
     server = net.createServer(function(socket) {
-      serverSide = tls.socket.create(socket, tls.state.create({
-        type: 'server',
-        context: ctx
-      }));
-
+      serverSide = tls.socket.create(socket, ctx.server, 'server');
       serverSide.start();
       wait();
     }).listen(PORT, function() {
       client = net.connect(PORT, function() {
-        clientSide = tls.socket.create(client, tls.state.create({
-          type: 'client',
-          context: ctx
-        }));
-
+        clientSide = tls.socket.create(client, ctx.client, 'client');
         clientSide.start();
         wait();
       });

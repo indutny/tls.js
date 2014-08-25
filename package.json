@@ -13,6 +13,13 @@
   "author": "Fedor Indutny",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "~1.9.0"
+    "mocha": "^1.9.0"
+  },
+  "optionalDependencies": {
+    "ursa": "^0.8.0"
+  },
+  "dependencies": {
+    "asn1.js": "^0.5.0",
+    "asn1.js-rfc3280": "^0.5.0"
   }
 }

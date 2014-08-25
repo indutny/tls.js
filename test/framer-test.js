@@ -8,8 +8,7 @@ describe('tls.js/Framer', function() {
   var provider = tls.provider.node.create();
 
   beforeEach(function() {
-    var context = tls.context.create({ provider: provider });
-    var state = tls.state.create({ context: context });
+    var state = tls.state.createDummy();
     framer = tls.framer.create(state);
     parser = tls.parser.create(state);
     framer.pipe(parser);
@@ -32,6 +31,7 @@ describe('tls.js/Framer', function() {
 
     it('client_hello', function() {
       framer.hello('client', {
+        random: new Buffer(28),
         cipherSuites: [
           'TLS_ECDH_anon_WITH_AES_256_CBC_SHA'
         ],
@@ -58,6 +58,7 @@ describe('tls.js/Framer', function() {
 
     it('server_hello', function() {
       framer.hello('server', {
+        random: new Buffer(28),
         cipherSuite: 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA',
         compressionMethod: 'deflate'
       });
