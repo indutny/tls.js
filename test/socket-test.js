@@ -21,7 +21,8 @@ var ciphers = [
   'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
   'TLS_RSA_WITH_RC4_128_MD5',
   'TLS_RSA_WITH_RC4_128_SHA',
-  'TLS_RSA_WITH_NULL_SHA'
+  'TLS_RSA_WITH_NULL_SHA',
+  'TLS_RSA_WITH_IDEA_CBC_SHA'
 ];
 
 describe('tls.js/Socket', function() {
