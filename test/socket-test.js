@@ -9,7 +9,7 @@ var PORT = 8000;
 var certs = {
   key: fs.readFileSync(__dirname + '/keys/key.pem'),
   cert: fs.readFileSync(__dirname + '/keys/cert.pem'),
-  ciphers: 'ALL'
+  ciphers: 'ALL:NULL'
 };
 
 var ciphers = [
@@ -20,7 +20,8 @@ var ciphers = [
   'TLS_RSA_WITH_DES_CBC_SHA',
   'TLS_RSA_WITH_3DES_EDE_CBC_SHA',
   'TLS_RSA_WITH_RC4_128_MD5',
-  'TLS_RSA_WITH_RC4_128_SHA'
+  'TLS_RSA_WITH_RC4_128_SHA',
+  'TLS_RSA_WITH_NULL_SHA'
 ];
 
 describe('tls.js/Socket', function() {
