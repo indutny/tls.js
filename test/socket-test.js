@@ -95,7 +95,7 @@ describe('tls.js/Socket', function() {
 
         var server = https.createServer(certs, function(req, res) {
           res.end('hello');
-          req.socket.destroySoon();
+          req.socket.end();
           server.close(function() {
             if (--waiting === 0)
               done();
