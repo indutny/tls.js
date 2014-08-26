@@ -1,5 +1,5 @@
 var tls = require('..'),
-    ntls = require('tls'),
+    https = require('https'),
     net = require('net'),
     fs = require('fs'),
     assert = require('assert');
@@ -65,9 +65,15 @@ describe('tls.js/Socket', function() {
 
     it('should connect to OpenSSL server', function(done) {
       var client;
-      var server = ntls.createServer(certs, function(c) {
-        c.destroy();
-        server.close(done);
+      var waiting = 2;
+
+      var server = https.createServer(certs, function(req, res) {
+        res.end('hello');
+        req.socket.destroySoon();
+        server.close(function() {
+          if (--waiting === 0)
+            done();
+        });
       }).listen(PORT, function() {
         client = net.connect(PORT, onConnect);
       });
@@ -75,6 +81,17 @@ describe('tls.js/Socket', function() {
       function onConnect() {
         var s = tls.socket.create(client, ctx, 'client');
         s.start();
+        s.end('GET / HTTP/1.1\r\n\r\n');
+
+        var recv = '';
+        s.on('data', function(d) {
+          recv += d;
+        });
+        s.on('end', function() {
+          assert(/200 OK/.test(recv));
+          if (--waiting === 0)
+            done();
+        });
       }
     });
   });
