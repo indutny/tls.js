@@ -150,6 +150,47 @@ describe('tls.js/Socket', function() {
           });
         }
       });
+
+      it('should accept connections from OpenSSL client', function(done) {
+        var client;
+        var waiting = 2;
+
+        var server = tls.createHTTPServer({
+          version: version,
+          ciphers: [ cipher ],
+          key: certs.key,
+          cert: certs.cert
+        }, function(req, res) {
+          res.end('hello');
+          req.socket.end();
+          server.close(function() {
+            if (--waiting === 0)
+              done();
+          });
+        }).listen(PORT, function() {
+          client = https.get({
+            port: PORT,
+            path: '/',
+            rejectUnauthorized: false,
+            secureProtocol: version === 'tls1.2' ? 'TLSv1_2_method' :
+                            version === 'tls1.1' ? 'TLSv1_1_method' :
+                            'TLSv1_method',
+            ciphers: certs.ciphers
+          }, onRes).end();
+        });
+
+        function onRes(res) {
+          var recv = '';
+          res.on('data', function(d) {
+            recv += d;
+          });
+          res.on('end', function() {
+            assert.equal(recv, 'hello');
+            if (--waiting === 0)
+              done();
+          });
+        }
+      });
     }
 
     all(runTest);
