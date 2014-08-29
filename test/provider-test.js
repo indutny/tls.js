@@ -10,7 +10,7 @@ describe('tls.js/Provider', function() {
     var prf = new tls.utils.prf(provider.mac('sha256'))(
       new Buffer('1234'),
       new Buffer('label'),
-      new Buffer('seed'));
+      [ new Buffer('seed') ]);
 
     assert.equal(prf.read(256).length, 256);
   });
