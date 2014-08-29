@@ -28,16 +28,4 @@ describe('tls.js/Provider', function() {
                  md5.update('hello world').digest('hex') +
                      sha1.update('hello world').digest('hex'));
   });
-
-  it('should create SSL3Hmac', function() {
-    var ssl3hmac = tls.utils.ssl3hmac(provider)('secret');
-
-    ssl3hmac.update('hello ');
-    ssl3hmac.update('world');
-
-    assert.equal(
-        ssl3hmac.digest('hex'),
-        '224d623ddb1475d41386f9988267e5d4' +
-            '5814617ffe1077b67f887fcd5b33952fa2b18ece');
-  });
 });
