@@ -30,7 +30,8 @@ var ciphers = [
 
 var version = [
   'tls1.2',
-  'tls1.1'
+  'tls1.1',
+  'tls1.0'
 ];
 
 function all(fn) {
