@@ -46,14 +46,14 @@ describe('tls.js/Framer', function() {
       var frame = parser.read();
       assert.equal(frame.type, 'handshake');
       assert.equal(frame.handshakeType, 'client_hello');
-      assert(frame.random.time <= +new Date);
+      assert.equal(frame.random.length, 32);
       assert.equal(frame.session, false);
       assert.equal(frame.cipherSuites.length, 1);
       assert.equal(frame.cipherSuites[0], 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA');
       assert.equal(frame.compressionMethods.length, 2);
       assert.equal(frame.compressionMethods[0], 'null');
       assert.equal(frame.compressionMethods[1], 'deflate');
-      assert.equal(frame.extensions.next_protocol_negotiation.length, 0);
+      assert.equal(frame.extensions.next_protocol_negotiation.size, 0);
     });
 
     it('server_hello', function() {
@@ -65,7 +65,7 @@ describe('tls.js/Framer', function() {
       var frame = parser.read();
       assert.equal(frame.type, 'handshake');
       assert.equal(frame.handshakeType, 'server_hello');
-      assert(frame.random.time <= +new Date);
+      assert.equal(frame.random.length, 32);
       assert.equal(frame.session, false);
       assert.equal(frame.cipherSuite, 'TLS_ECDH_anon_WITH_AES_256_CBC_SHA');
       assert.equal(frame.compressionMethod, 'deflate');
