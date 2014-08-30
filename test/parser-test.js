@@ -10,10 +10,11 @@ describe('tls.js/Parser', function() {
   var server = null;
   var ee = null;
   var socket = null;
+  var provider = tls.provider.node.create();
 
   before(function(cb) {
     server = net.createServer(function(s) {
-      var state = tls.state.createDummy();
+      var state = tls.state.createDummy({ provider: provider });
       var parser = tls.parser.create(state);
       s.pipe(parser);
 
