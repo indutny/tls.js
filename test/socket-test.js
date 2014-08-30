@@ -36,17 +36,19 @@ var version = [
 
 function all(fn) {
   version.forEach(function(version) {
-    ciphers.forEach(function(cipher) {
-      var info = tls.constants.cipherInfoByName[cipher];
-      if (!info)
-        throw new Error('Unknown cipher: ' + cipher);
+    describe(version, function() {
+      ciphers.forEach(function(cipher) {
+        var info = tls.constants.cipherInfoByName[cipher];
+        if (!info)
+          throw new Error('Unknown cipher: ' + cipher);
 
-      // Skip new ciphers on old tls versions
-      if (version !== 'tls1.2' && info.version.min === 0x0303)
-        return;
+        // Skip new ciphers on old tls versions
+        if (version !== 'tls1.2' && info.version.min === 0x0303)
+          return;
 
-      describe('TLS version: ' + version + ' cipher: ' + cipher, function() {
-        fn(version, cipher);
+        describe(cipher, function() {
+          fn(version, cipher);
+        });
       });
     });
   });
