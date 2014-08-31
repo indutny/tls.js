@@ -1,4 +1,5 @@
 var tls = require('..'),
+    crypto = require('crypto'),
     assert = require('assert');
 
 var PORT = 8000;
@@ -12,6 +13,7 @@ describe('tls.js/Provider', function() {
       new Buffer('label'),
       [ new Buffer('seed') ]);
 
+    crypto.createHmac('sha256', '1234')
     assert.equal(prf.read(256).length, 256);
   });
 
