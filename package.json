@@ -17,7 +17,7 @@
   },
   "optionalDependencies": {
     "raw-cipher": "^0.1.0",
-    "ursa": "^0.8.0",
+    "raw-rsa": "^0.1.0",
     "md5-sha1": "^0.1.0",
     "prf": "^0.2.0"
   },
