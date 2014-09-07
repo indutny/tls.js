@@ -38,7 +38,11 @@ describe('tls.js/Framer', function() {
         extensions: [
           {
             type: 'next_protocol_negotiation',
-            body: new Buffer(0)
+            body: new Buffer([0x00])
+          },
+          {
+            type: 'elliptic_curves',
+            body: new Buffer([0x00, 0x06, 0x00, 0x17, 0x00, 0x18, 0x00, 0x19])
           }
         ]
       });
@@ -52,7 +56,8 @@ describe('tls.js/Framer', function() {
       assert.equal(frame.compressionMethods.length, 2);
       assert.equal(frame.compressionMethods[0], 'null');
       assert.equal(frame.compressionMethods[1], 'deflate');
-      assert.equal(frame.extensions.next_protocol_negotiation.size, 0);
+      assert.equal(frame.extensions.next_protocol_negotiation.size, 1);
+      assert.equal(frame.extensions.elliptic_curves.size, 8);
 
       // Split hello into two parts
       var rawFrame = frame.rawBody.take(frame.rawBody.size);
@@ -77,7 +82,8 @@ describe('tls.js/Framer', function() {
       assert.equal(frame.compressionMethods.length, 2);
       assert.equal(frame.compressionMethods[0], 'null');
       assert.equal(frame.compressionMethods[1], 'deflate');
-      assert.equal(frame.extensions.next_protocol_negotiation.size, 0);
+      assert.equal(frame.extensions.next_protocol_negotiation.size, 1);
+      assert.equal(frame.extensions.elliptic_curves.size, 8);
     });
 
     it('server_hello', function() {
